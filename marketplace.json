@@ -3,7 +3,7 @@
   "category_label": "Plug-ins",
   "branding": {
     "image_uri": "https://wwwstatic-a.lookercdn.com/blocks/logos/aws.png",
-    "tagline": "A tree diagram shows the hierarchy of a series of dimensions. Each branch is collapsible."
+    "tagline": "Interactively visualize hierarchical data in a collapsible tree diagram that can be expanded and minimized in real-time."
   },
 
     "constants": {
