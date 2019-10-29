@@ -2,7 +2,7 @@
   "label": "Collapsible Tree Visualization",
   "category_label": "Plug-ins",
   "branding": {
-    "image_uri": "https://looker.com/assets/img/images/blocks/screenshots/viz/tree/tree.gif",
+    "image_uri": "https://marketplace-api.looker.com/visualization-screenshots/sankey_icon.png",
     "tagline": "Interactively visualize hierarchical data in a collapsible tree diagram that can be expanded and minimized in real-time."
   },
 
