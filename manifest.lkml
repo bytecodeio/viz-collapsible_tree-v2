@@ -12,6 +12,6 @@ constant: VIS_ID {
 
 visualization: {
   id: "@{VIS_ID}"
-  url: "https://looker-custom-viz-a.lookercdn.com/master/collapsible_tree.js"
+  url: "https://marketplace-api.looker.com/viz-dist/collapsible_tree.js"
   label: "@{VIS_LABEL}"
 }
