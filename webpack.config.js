@@ -1,9 +1,8 @@
 var path = require('path')
 
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
 
 var webpackConfig = {
-  mode: 'production',
   entry: {
     collapsible_tree: './src/collapsible_tree/collapsible_tree.ts',
   },
@@ -17,13 +16,14 @@ var webpackConfig = {
     extensions: [".ts", ".js"]
   },
   plugins: [
-    new UglifyJSPlugin()
+    new TerserJSPlugin()
   ],
   module: {
     rules: [
       { test: /\.js$/, loader: "babel-loader" },
       { test: /\.ts$/, loader: "ts-loader" },
-      { test: /\.css$/, loader: [ 'to-string-loader', 'css-loader' ] }
+      { test: /\.css$/, loader: "to-string-loader" },
+      { test: /\.css$/, loader: "css-loader" }
     ]
   },
   performance: {
@@ -36,8 +36,7 @@ var webpackConfig = {
     https: true,
     contentBase: path.join(__dirname),
     compress: true
-  },
-  watch: true
+  }
 }
 
 module.exports = webpackConfig

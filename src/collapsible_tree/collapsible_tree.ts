@@ -49,7 +49,7 @@ function burrow(table: any, taxonomy: any[], linkMap: Map<string, Cell|Link[]|un
     // create children as nested objects
     taxonomy.forEach((t: any) => {
       const key = row[t.name].value
-      if (key != '') {
+      if (key != '' && key != null) {
         linkMap.set(key, row[t.name].links)
         layer[key] = key in layer ? layer[key] : {}
         layer = layer[key]
@@ -84,7 +84,7 @@ const vis: CollapsibleTreeVisualization = {
     },
     label_width: {
       label: 'Label Width',
-      default: 350,
+      default: 250,
       type: 'number',
       display: 'number'
     },
