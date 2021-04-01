@@ -49,9 +49,11 @@ function burrow(table: any, taxonomy: any[], linkMap: Map<string, Cell|Link[]|un
     // create children as nested objects
     taxonomy.forEach((t: any) => {
       const key = row[t.name].value
-      linkMap.set(key, row[t.name].links)
-      layer[key] = key in layer ? layer[key] : {}
-      layer = layer[key]
+      if (key != '') {
+        linkMap.set(key, row[t.name].links)
+        layer[key] = key in layer ? layer[key] : {}
+        layer = layer[key]
+      }
     })
     layer.__data = row
   })
@@ -79,6 +81,24 @@ const vis: CollapsibleTreeVisualization = {
       default: '#fff',
       type: 'string',
       display: 'color'
+    },
+    label_width: {
+      label: 'Label Width',
+      default: 350,
+      type: 'number',
+      display: 'number'
+    },
+    text_size: {
+      label: 'Text Size',
+      default: 11,
+      type: 'number',
+      display: 'number'
+    },
+    expand_all: {
+      label: 'Expand All',
+      default: false,
+      type: 'boolean',
+      display: 'select'
     }
   },
 
@@ -100,7 +120,7 @@ const vis: CollapsibleTreeVisualization = {
       children: (config && config.color_with_children) || this.options.color_with_children.default,
       empty: (config && config.color_empty) || this.options.color_empty.default
     }
-    const textSize = 10
+    const textSize = (config && config.text_size) || this.options.text_size.default
     const nodeRadius = 4
     const duration = 750
     const margin = { top: 10, right: 10, bottom: 10, left: 10 }
@@ -108,6 +128,8 @@ const vis: CollapsibleTreeVisualization = {
     const height = element.clientHeight - margin.top - margin.bottom
     const linkMap: Map<string, Link[]> = new Map()
     const nested = burrow(data, queryResponse.fields.dimension_like, linkMap)
+    const labelWidth = (config && config.label_width) || this.options.label_width.default
+    const bExpandAll = (config && config.expand_all) || this.options.expand_all.default
 
 
     const svg = this.svg!
@@ -134,6 +156,28 @@ const vis: CollapsibleTreeVisualization = {
         d._children.forEach(collapse)
         d.children = null
       }
+    }
+
+    function expand(d: any){   
+      var children = (d.children)?d.children:d._children;
+      if (d._children) {        
+          d.children = d._children;
+          d._children = null;       
+      }
+      if(children)
+        children.forEach(expand);
+  }
+  
+    function expandAll(){
+        expand(rootNode); 
+        update(rootNode);
+    }
+    
+    function collapseAll(){
+        rootNode.children.forEach(collapse);
+        // collapse(rootNode);
+        update(rootNode);
+        
     }
 
     // Creates a curved (diagonal) path from parent to the child nodes
@@ -171,7 +215,7 @@ const vis: CollapsibleTreeVisualization = {
 
       // Normalize for fixed-depth.
       nodes.forEach((d) => {
-        d.y = d.depth * 180
+        d.y = d.depth * labelWidth
       })
 
       // ****************** Nodes section ***************************
@@ -307,12 +351,19 @@ const vis: CollapsibleTreeVisualization = {
 
     }
 
-    // Collapse after the second level
-    rootNode.children.forEach(collapse)
+    // // Collapse after the second level
+    // rootNode.children.forEach(collapse)
 
-    // Update the root node
-    update(rootNode)
+    // // Update the root node
+    // update(rootNode)
 
+    // console.log(bExpandAll)
+
+    if (bExpandAll == true) {
+      expandAll()
+    } else {
+      collapseAll()
+    }
   }
 }
 

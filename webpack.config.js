@@ -30,7 +30,14 @@ var webpackConfig = {
     hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
-  }
+  },
+  devServer: {
+    port: 3443,
+    https: true,
+    contentBase: path.join(__dirname),
+    compress: true
+  },
+  watch: true
 }
 
 module.exports = webpackConfig
