@@ -48,7 +48,7 @@ function burrow(table: any, taxonomy: any[], linkMap: Map<string, Cell|Link[]|un
     let layer = obj
     // create children as nested objects
     taxonomy.forEach((t: any) => {
-      const key = row[t.name].value
+      const key = row[t.name].html || row[t.name].value
       if (key != '' && key != null) {
         linkMap.set(key, row[t.name].links)
         layer[key] = key in layer ? layer[key] : {}
@@ -246,18 +246,22 @@ const vis: CollapsibleTreeVisualization = {
         .on('click', click)
 
       // Add labels for the nodes
-      nodeEnter.append('text')
-        .attr('dy', '.35em')
-        .attr('x', (d: any) => {
-          return d.children || d._children ? -textSize : textSize
-        })
-        .attr('text-anchor', (d: any) => {
-          return d.children || d._children ? 'end' : 'start'
-        })
+      nodeEnter.append('foreignObject')
+        .attr('class', 'node')
         .style('cursor', 'pointer')
         .style('font-family', "'Open Sans', Helvetica, sans-serif")
         .style('font-size', textSize + 'px')
-        .text((d: any) => { return d.data.name })
+        .style('text-align', (d: any) => {
+          return d.children || d._children ? 'right' : 'left'
+        })
+        .attr('width',labelWidth + textSize)
+        .attr('height',Math.round(textSize/2)*-1)
+        .style('overflow', 'visible')
+        .attr('y',Math.round(textSize/2)*-1)
+        .attr('x', (d: any) => {
+          return d.children || d._children ? -(labelWidth + textSize*2) : textSize
+        })
+        .html((d: any) => { return d.data.name })
         .on('click', (d: any) => { 
          LookerCharts.Utils.openDrillMenu({
             links: linkMap.get(d.data.name),
