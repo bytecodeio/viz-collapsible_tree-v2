@@ -254,12 +254,14 @@ const vis: CollapsibleTreeVisualization = {
         .style('text-align', (d: any) => {
           return d.children || d._children ? 'right' : 'left'
         })
-        .attr('width',labelWidth + textSize)
+        // .attr('width',labelWidth + textSize)
+        .attr('width','500')
         .attr('height',Math.round(textSize/2)*-1)
         .style('overflow', 'visible')
         .attr('y',Math.round(textSize/2)*-1)
         .attr('x', (d: any) => {
-          return d.children || d._children ? -(labelWidth + textSize*2) : textSize
+          // return d.children || d._children ? -(labelWidth + textSize*2) : textSize
+          return d.children || d._children ? -500-textSize : textSize
         })
         .html((d: any) => { return d.data.name })
         .on('click', (d: any) => { 
