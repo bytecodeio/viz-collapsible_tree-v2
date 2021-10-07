@@ -275,8 +275,9 @@ const vis: CollapsibleTreeVisualization = {
       const nodeUpdate = nodeEnter.merge(node)
 
       // Transition to the proper position for the node
-      nodeUpdate.transition()
-        .duration(duration)
+      nodeUpdate
+        // .transition()
+        // .duration(duration)
         .attr('transform', (d: any) => {
           return 'translate(' + d.y + ',' + d.x + ')'
         })
@@ -290,8 +291,9 @@ const vis: CollapsibleTreeVisualization = {
         .attr('cursor', 'pointer')
 
       // Remove any exiting nodes
-      const nodeExit = node.exit().transition()
-        .duration(duration)
+      const nodeExit = node.exit()
+        // .transition()
+        // .duration(duration)
         .attr('transform', (d: any) => {
           return 'translate(' + source.y + ',' + source.x + ')'
         })
@@ -334,15 +336,15 @@ const vis: CollapsibleTreeVisualization = {
 
       // Transition back to the parent element position
       linkUpdate
-        .transition()
-        .duration(duration)
+        // .transition()
+        // .duration(duration)
         .attr('d', (d: any) => diagonal(d, d.parent))
 
       // Remove any exiting links
       link
         .exit()
-        .transition()
-        .duration(duration)
+        // .transition()
+        // .duration(duration)
         .attr('d', (d: any) => {
           const o = { x: source.x, y: source.y }
           return diagonal(o, o)
